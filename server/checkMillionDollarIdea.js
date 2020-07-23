@@ -3,6 +3,8 @@ const checkMillionDollarIdea = (res, req, next) => {
     const totalYield = Number(numWeeks) * Number(weeklyRevenue)
     if (totalYield < 1000000) {
         res.status(400).send()
+    } else {
+        next()
     }
 };
 

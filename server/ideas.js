@@ -12,7 +12,7 @@ const {
 
 const checkMillionDollarIdea = require('./checkMillionDollarIdea')
 
-ideasRouter.param('ideaId', (req, res, next, id) => {
+ideasRouter.param('id', (req, res, next, id) => {
     const idea = getFromDatabaseById('ideas', id)
     if (idea) {
         req.idea = idea
@@ -26,20 +26,21 @@ ideasRouter.get('/', (req, res, next) => {
     res.send(getAllFromDatabase('ideas'))
 })
 
-ideasRouter.get('/:ideaId', (req, res, next) => {
+ideasRouter.post('/', checkMillionDollarIdea, (req, res, next) => {
+    const newIdea = addToDatabase('ideas', req.body)
+    res.status(201).send(newIdea)
+})
+
+ideasRouter.get('/:id', (req, res, next) => {
     res.send(req.idea)
 })
 
-ideasRouter.put('/:ideaId', (req, res, next) => {
+ideasRouter.put('/:id', checkMillionDollarIdea, (req, res, next) => {
     let toUpdate = updateInstanceInDatabase('ideas', req.body)
     res.send(toUpdate)
 })
 
-ideasRouter.post('/', (req, res, next) => {
-    res.status(201).send(addToDatabase('ideas', req.body))
-})
-
-ideasRouter.delete('/:ideaId', (req, res, next) => {
+ideasRouter.delete('/:id', (req, res, next) => {
     deleteFromDatabasebyId('ideas', req.idea.id)
     res.status(204).send()
 })
