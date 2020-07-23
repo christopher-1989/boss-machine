@@ -36,3 +36,8 @@ minionsRouter.put('/:minionId', (req, res, next) => {
   let updatedMinion = updateInstanceInDatabase('minions', req.body)
   res.send(updatedMinion)
 })
+
+minionsRouter.delete('/:minionId', (req, res, next) => {
+  deleteFromDatabasebyId('minions', req.minion.id)
+  res.status(204).send()
+})
