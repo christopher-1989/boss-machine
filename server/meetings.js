@@ -9,6 +9,7 @@ const {
     updateInstanceInDatabase,
     deleteFromDatabasebyId,
     createMeeting,
+    deleteAllFromDatabase,
   } = require('./db');
 /*
 meetingsRouter.param('time', (req, res, next, time) => {
@@ -22,6 +23,14 @@ meetingsRouter.param('time', (req, res, next, time) => {
 })
 */
 meetingsRouter.get('/', (req, res, next) => {
-    console.log(req)
     res.send(getAllFromDatabase('meetings'))
+})
+
+meetingsRouter.post('/', (req, res, next) => {
+    const newMeeting = addToDatabase('meetings', createMeeting())
+    res.status(201).send(newMeeting)
+})
+
+meetingsRouter.delete('/', (req, res, next) => {
+    res.status(204).send(deleteAllFromDatabase('meetings'))
 })
